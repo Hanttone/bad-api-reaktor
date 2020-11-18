@@ -1,5 +1,9 @@
 
-export default function Jackets({jacketsData}) {
+
+export default function Products({productsData, availabilityData}) {
+
+    console.log(availabilityData)
+
    /* async function fetchAvailablity(id, manufacturer) {
         if (!fetched.includes(manufacturer)) {
             setFetched(...fetched, manufacturer);
@@ -7,15 +11,15 @@ export default function Jackets({jacketsData}) {
         }
         //checkAvailability(id);
         console.log(fetched)
-    }
+    }*/
 
-    function checkAvailability(id) {
-        if (id === availability.id) {
-            console.log(availability.id)
+    /*function checkAvailability(id) {
+        if (id.toUpperCase() === availabilityData.id) {
+            console.log(availabilityData.id)
         }
     }*/
 
     return <>
-    {jacketsData.map(jacket => <div key={jacket.id}><div >{jacket.name}</div><div>{jacket.price}</div><div></div></div>)}
+    {productsData.map(product => <div key={product.id}><div >{product.name}</div><div>{product.price}</div><div></div></div>)}
     </>
 }

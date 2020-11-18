@@ -2,17 +2,22 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
 import styled from "styled-components/macro";
 import Navigation from "./Components/Navigation";
-import Jackets from "./Components/Jackets";
+import Products from "./Components/Products";
 import fetchData from "./Services/fetchData";
 import {useState, useEffect} from "react";
 
+
 function App() {
 
-  const [jackets, setJackets] = useState([])
+  const [products, setProducts] = useState([])
+  const [availability, setAvailability] = useState([])
+ 
 
-    useEffect(() => 
-    fetchData('https://bad-api-assignment.reaktor.com/products/jackets').then(data => setJackets(...data)), [])
+  /*const manufacturers = ["reps", "abiplos", "nouke", "derp", "xoon"]*/
 
+  useEffect(() => fetchData().then(data => setProducts(data)), [])
+
+  const [jackets, shirts, accessories, ...available] = products;
 
   return (
     <Router>
@@ -20,12 +25,14 @@ function App() {
       <Navigation></Navigation>
       <Switch>
         <Route path="/jackets">
-          <Jackets jacketsData={jackets} ></Jackets>
+          <Products productsData={jackets} availabilityData={available}></Products>
         </Route>
         <Route path="/shirts">
-
+          <Products productsData={shirts}></Products>
         </Route>
-        <Route path="/accessories"></Route>
+        <Route path="/accessories">
+          <Products productsData={accessories}></Products>
+        </Route>
       </Switch>
     </AppWrapper>
     </Router>

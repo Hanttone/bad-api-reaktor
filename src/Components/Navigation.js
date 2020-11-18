@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components/macro";
 
-export default function Navigation({jacketsData}) {
+export default function Navigation() {
     return <Nav>
     <NavLinkStyled to="/jackets" activeClassName="active">Jackets</NavLinkStyled>
     <NavLinkStyled to="/shirts" activeClassName="active">Shirts</NavLinkStyled>
