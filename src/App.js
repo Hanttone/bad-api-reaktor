@@ -10,10 +10,6 @@ import {useState, useEffect} from "react";
 function App() {
 
   const [products, setProducts] = useState([])
-  const [availability, setAvailability] = useState([])
- 
-
-  /*const manufacturers = ["reps", "abiplos", "nouke", "derp", "xoon"]*/
 
   useEffect(() => fetchData().then(data => setProducts(data)), [])
 
