@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => fetchData().then(data => setProducts(data)), [])
 
-  const [jackets, shirts, accessories, ...available] = products;
+  const [jackets, shirts, accessories, derp, reps, abiplos, nouke, xoon] = products;    
 
   return (
     <Router>
@@ -21,13 +21,13 @@ function App() {
       <Navigation></Navigation>
       <Switch>
         <Route path="/jackets">
-          <Products productsData={jackets} availabilityData={available}></Products>
+          <Products productsData={jackets} derp={derp} reps={reps} abiplos={abiplos} nouke={nouke} xoon={xoon}></Products>
         </Route>
         <Route path="/shirts">
-          <Products productsData={shirts}></Products>
+          <Products productsData={shirts} derp={derp} reps={reps} abiplos={abiplos} nouke={nouke} xoon={xoon}></Products>
         </Route>
         <Route path="/accessories">
-          <Products productsData={accessories}></Products>
+          <Products productsData={accessories} derp={derp} reps={reps} abiplos={abiplos} nouke={nouke} xoon={xoon}></Products>
         </Route>
       </Switch>
     </AppWrapper>
