@@ -1,8 +1,20 @@
+import styled from "styled-components";
+
 export default function Product ({name, price, availability}) {
 
-    return <section>
+    return <ProductWrapper>
         <div>{name}</div>
         <div>{price}</div>
         <div>{availability}</div>
-    </section>
+    </ProductWrapper>
 }
+
+
+const ProductWrapper = styled.section`
+display: grid; 
+grid-template-columns: 1fr 0.2fr 2fr;
+
+div {
+    justify-self: start;
+}
+`;
