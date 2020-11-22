@@ -6,20 +6,20 @@ export default function Products({productsData, reps, derp, abiplos, xoon, nouke
         let availability = ""
     
         if (manufacturer === "reps") {
-            reps.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD));
-            return availability
+            reps.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")));
+            return availability[6]
         } else if (manufacturer === "derp") {
-            derp.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD));
-            return availability
+            derp.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")));
+            return availability[6]
         } else if (manufacturer === "abiplos") {
-            abiplos.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD));
-            return availability
+            abiplos.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")));
+            return availability[6]
         } else if (manufacturer === "xoon") {
-            xoon.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD));
-            return availability
+            xoon.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")));
+            return availability[6]
         } else if (manufacturer === "nouke") {
-            nouke.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD));
-            return availability
+            nouke.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")));
+            return availability[6]
         } else {
             return console.log(manufacturer)
         }
