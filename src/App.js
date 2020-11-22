@@ -1,60 +1,68 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
 import styled from "styled-components/macro";
-import Navigation from "./Components/Navigation";
-import Products from "./Components/Products";
-import fetchData from "./Services/fetchData";
 import {useState, useEffect} from "react";
-import addToLocalStorage, {loadFromLocalStorage} from "./Services/saveToLocalStorage"
+
+import Products from "./Components/Products"
+import Navigation from "./Components/Navigation";
+import ColumnHeaders from "./Components/ColumnHeader";
+import fetchData from "./Services/fetchData";
+
 
 
 function App() {
 
   const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  const productsUrl = [
-    'https://bad-api-assignment.reaktor.com/products/jackets',
-    'https://bad-api-assignment.reaktor.com/products/shirts', 
-    'https://bad-api-assignment.reaktor.com/products/accessories',
-    'https://bad-api-assignment.reaktor.com/availability/derp',
-    'https://bad-api-assignment.reaktor.com/availability/reps',
-    'https://bad-api-assignment.reaktor.com/availability/abiplos',
-    'https://bad-api-assignment.reaktor.com/availability/nouke',
-    'https://bad-api-assignment.reaktor.com/availability/xoon'
-] 
-
-  useEffect(() => fetchData(productsUrl).then(data => setProducts(data)), [])
-
-  const loadedFromLocalStorage = loadFromLocalStorage('Productdata')
-  let localStorageList = loadedFromLocalStorage || [];
-
-  if (products.length !== 0) {
-    addToLocalStorage(new Date().toUTCString(), products[3], products[4], products[5], products[6], products[7], localStorageList)
+  function toggleLoading() {
+    setLoading(!loading)
   }
 
-  /*function testCachingTime() {
-    const date1 = localStorageList[0].timeStamp
-    const diff = (new Date().getTime() - new Date(date1).getTime())/1000
-    if (diff > 1800) {
-      fetchData()
-    }
-  }*/
+  useEffect(() => fetchData().then(data => setProducts(data)).then(toggleLoading), [])
 
-  const [jackets, shirts, accessories] = products;    
-
+  const [jackets, shirts, accessories, derp, reps, abiplos, nouke, xoon] = products; 
+ 
   return (
     <Router>
     <AppWrapper>
-      <Navigation></Navigation>
+      {loading ? <Navigation></Navigation> : <h1>The data is loading, please be patient</h1>}
       <Switch>
+        <Route exact path="/">
+            <h2>Welcome to the Warehouse</h2>
+        </Route>
         <Route path="/jackets">
-          <Products productsData={jackets} derp={localStorageList[0].derp} reps={localStorageList[0].reps} abiplos={localStorageList[0].abiplos} nouke={localStorageList[0].nouke} xoon={localStorageList[0].xoon} ></Products>
+          <ColumnHeaders></ColumnHeaders>
+            <Products 
+            products={jackets} 
+            derp={derp} 
+            reps={reps} 
+            abiplos={abiplos} 
+            nouke={nouke} 
+            xoon={xoon}>
+            </Products>
         </Route>
         <Route path="/shirts">
-          <Products productsData={shirts} derp={localStorageList[0].derp} reps={localStorageList[0].reps} abiplos={localStorageList[0].abiplos} nouke={localStorageList[0].nouke} xoon={localStorageList[0].xoon}></Products>
+          <ColumnHeaders></ColumnHeaders>
+            <Products 
+            products={shirts} 
+            derp={derp} 
+            reps={reps} 
+            abiplos={abiplos} 
+            nouke={nouke} 
+            xoon={xoon} >
+            </Products>
         </Route>
         <Route path="/accessories">
-          <Products productsData={accessories} derp={localStorageList[0].derp} reps={localStorageList[0].reps} abiplos={localStorageList[0].abiplos} nouke={localStorageList[0].nouke} xoon={localStorageList[0].xoon}></Products>
+          <ColumnHeaders></ColumnHeaders>
+            <Products 
+            products={accessories} 
+            derp={derp} 
+            reps={reps} 
+            abiplos={abiplos} 
+            nouke={nouke} 
+            xoon={xoon} >
+            </Products>
         </Route>
       </Switch>
     </AppWrapper>
@@ -67,4 +75,18 @@ export default App;
 const AppWrapper = styled.div`
 height: 100vh;
 width: 100%;
+
+h1 {
+  margin-top: 3vh;
+  text-align: center;
+  font-size: 2rem;
+}
+
+h2 {
+  margin-top: 3vh;
+  font-size: 1.5rem;
+  margin: 2%;
+}
 `;
+
+
