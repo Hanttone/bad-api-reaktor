@@ -1,3 +1,13 @@
+#Reaktor Bad-Api Coding Challenge
+
+This project was created with React (see more information below how to get started with react) and solves the coding challenge given by Reaktor. 
+The task is to present product information from an API source in a fast and easy way. 
+
+## App information
+
+The task is unfortunately not optimized for mobile, this would be the next step of enhancements beside creating a prettier user interface. 
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
