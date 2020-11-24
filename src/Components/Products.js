@@ -1,68 +1,117 @@
-import { List, AutoSizer } from "react-virtualized";
-import styled from "styled-components";
+import {
+  List,
+  AutoSizer,
+} from 'react-virtualized';
+import styled from 'styled-components';
 
-export default function Products({products, derp, reps, abiplos, nouke, xoon, onLoading}) {
-    console.log(typeof reps, "reps")
-    console.log(typeof derp, "derp")
-    console.log(typeof abiplos, "abiplos")
-    console.log(typeof xoon, "xoon")
-    console.log(typeof nouke, "nouke")
-    if (products !== undefined ) {
-        function printId(id, manufacturer) {
-        let availability = ""
-        if (manufacturer === "reps") {
-          reps.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")))
-          return availability[6]
-        } else if (manufacturer === "derp") {
-          derp.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")))
-          return availability[6]
-        } else if (manufacturer === "abiplos") {
-          abiplos.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")))
-          return availability[6]
-        } else if (manufacturer === "nouke") {
-          nouke.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")))
-          return availability[6]
-        } else if (manufacturer === "xoon") {
-          xoon.response.map(rep => ((rep.id === id.toUpperCase())) && (availability = rep.DATAPAYLOAD.replace(/</g, " ").replace(/>/g, " ").split(" ")))
-          return availability[6]
-        }
+export default function Products({
+  products,
+  derp,
+  reps,
+  abiplos,
+  nouke,
+  xoon,
+}) {
+  if (products !== undefined) {
+    function checkAvailability(id, manufacturer) {
+      let availability = '';
+      let manufacturerName;
+
+      switch (manufacturer) {
+        case 'reps':
+          manufacturerName = reps;
+          break;
+        case 'derp':
+          manufacturerName = derp;
+          break;
+        case 'abiplos':
+          manufacturerName = abiplos;
+          break;
+        case 'nouke':
+          manufacturerName = nouke;
+          break;
+        case 'xoon':
+          manufacturerName = xoon;
+          break;
+        default:
+          return 'N/A';
       }
-    
-      return (
-            <div style={{width: "100%", height: "100vh", padding: "2%"}}>
-                <AutoSizer>
-                {({width, height}) => (  
-                  <List 
-                  width={width} 
-                  height={height} 
-                  rowHeight={50} 
-                  rowCount={products.length}
-                  rowRenderer={({key, index, style, parent}) => {
-                    const product = products[index];
-    
-                    return (
-                        <ProductWrapper key={key} style={style}>
-                          <div>{product.name}</div>
-                          <div>{product.price}</div>
-                          <div>{product.color[0]}</div>
-                          <div>{product.manufacturer}</div>
-                          <div>{printId(product.id, product.manufacturer)}</div>
-                        </ProductWrapper> )
-                      }}/>
-                  )}
-                </AutoSizer>
-              </div>
-       ) } else {
-           return <LoadingWrapper>Content is Loading</LoadingWrapper>
-       }
+
+      manufacturerName.response.map(
+        (company) =>
+          company.id === id.toUpperCase() &&
+          (availability = company.DATAPAYLOAD.replace(
+            /</g,
+            ' '
+          )
+            .replace(/>/g, ' ')
+            .split(' ')) //cleaning and trimming the DATAPAYLOAD to only show the availability
+      );
+      return availability[6];
     }
 
+    return (
+      <div
+        //styling added exceptionally here because React-Virtualizer AutoSizer is not accepting it as a styled-component
+        style={{
+          width: '100%',
+          height: '100vh',
+          padding: '2%',
+        }}>
+        <AutoSizer>
+          {({ width, height }) => (
+            <List
+              //defining scrolling window size where the elements are rendered
+              width={width}
+              height={height}
+              rowHeight={50}
+              rowCount={products.length}
+              rowRenderer={({
+                key,
+                index,
+                style,
+              }) => {
+                const product = products[index];
+
+                return (
+                  <ProductWrapper
+                    key={key}
+                    style={style}>
+                    <div>{product.name}</div>
+                    <div>{product.price}</div>
+                    <div>{product.color[0]}</div>
+                    <div>
+                      {product.manufacturer}
+                    </div>
+                    <div>
+                      {checkAvailability(
+                        product.id,
+                        product.manufacturer
+                      )}
+                    </div>
+                  </ProductWrapper>
+                );
+              }}
+            />
+          )}
+        </AutoSizer>
+      </div>
+    );
+  } else {
+    return (
+      //showing if products is undefined - due to long API loading times
+      <LoadingWrapper>
+        Content is Loading
+      </LoadingWrapper>
+    );
+  }
+}
+
 const ProductWrapper = styled.div`
-display: grid;
-grid-template-columns: 1fr 0.5fr 0.5fr 0.5fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr 0.5fr 1fr;
 `;
 
 const LoadingWrapper = styled.div`
-margin-left: 2%;
+  margin-left: 2%;
 `;
-
